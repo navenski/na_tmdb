@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="tmdb.data.data" target="11" />
+      <module name="tmdb.data.local-datasource" target="11" />
+      <module name="tmdb.local-datasource" target="11" />
+      <module name="tmdb.remote-datasource" target="11" />
+      <module name="tmdb.splash" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
