@@ -31,6 +31,9 @@ android {
   kotlinOptions {
     jvmTarget = '1.8'
   }
+  buildFeatures {
+    dataBinding true
+  }
 }
 
 dependencies {
@@ -43,6 +46,7 @@ dependencies {
 
   //Hilt
   implementation libraries.hilt
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
   kapt libraries.hiltCompiler
 
   implementation project(path: ':feature:common')

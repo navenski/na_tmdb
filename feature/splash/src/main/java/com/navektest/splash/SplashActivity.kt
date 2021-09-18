@@ -10,7 +10,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-    @Inject lateinit var router: SplashRouter
+    @Inject internal lateinit var router: SplashRouter
     private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,5 +23,4 @@ class SplashActivity : AppCompatActivity() {
         super.onStart()
         viewModel.triggerStart()
     }
-
 }

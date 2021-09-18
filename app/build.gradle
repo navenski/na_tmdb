@@ -55,6 +55,7 @@ dependencies {
   //Feature
   implementation project(path: ':feature:common')
   implementation project(path: ':feature:splash')
+  implementation project(path: ':feature:search')
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation libraries.ktxCore
