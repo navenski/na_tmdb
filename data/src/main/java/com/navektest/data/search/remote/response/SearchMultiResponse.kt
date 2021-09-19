@@ -28,7 +28,7 @@ data class SearchMultiResponse (
        @SerializedName("release_date") val release_date: String?= null,
        @SerializedName("title") val title: String?= null,
        @SerializedName("video") val video: Boolean?= null,
-       @SerializedName("vote_average") val vote_average: Int?= null,
+       @SerializedName("vote_average") val vote_average: Double?= null,
        @SerializedName("vote_count") val vote_count: Int?= null
     )
 

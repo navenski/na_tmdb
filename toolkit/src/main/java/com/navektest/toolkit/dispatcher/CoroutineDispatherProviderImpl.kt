@@ -6,10 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 internal class CoroutineDispatcherProviderImpl @Inject constructor(): CoroutineDispatcherProvider {
-
-    init {
-        Log.v("Initialiaze", "")
-    }
     override fun default(): CoroutineDispatcher = Dispatchers.Default
 
     override fun io(): CoroutineDispatcher = Dispatchers.IO

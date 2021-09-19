@@ -15,9 +15,6 @@ internal class SearchRepositoryImpl @Inject constructor(private val coroutinePro
                                                         private val remoteDataSource: SearchRemoteDataSource,
                                                         private val responseTransformer: SearchMultiResponseToSearchTransformer) :
     SearchRepository {
-    init {
-
-    }
 
     override fun multiSearch(query: String, page: Int): Flow<ResultState<SearchMulti>> {
         return remoteDataSource.multiSearch(query, page)

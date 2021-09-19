@@ -36,7 +36,7 @@ internal class SearchMultiResponseToSearchTransformer @Inject constructor() {
             release_date = result.release_date ?: "",
             title = result.title ?: "",
             video = result.video ?: false,
-            vote_average = result.vote_average ?: 0,
+            vote_average = result.vote_average ?: 0.0,
             vote_count = result.vote_count ?: 0,
         )
     }
