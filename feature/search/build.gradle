@@ -47,6 +47,7 @@ dependencies {
   //Hilt
   implementation libraries.hilt
   implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  implementation project(path: ':domain:usecase')
   kapt libraries.hiltCompiler
 
   implementation project(path: ':feature:common')

@@ -37,11 +37,12 @@ dependencies {
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation libraries.ktxCore
+  implementation libraries.appcompat
+  implementation libraries.material
+  implementation libraries.constraintlayout
 
   //Hilt
   implementation libraries.hilt
-  implementation project(path: ':domain:business')
-  implementation project(path: ':toolkit')
   kapt libraries.hiltCompiler
 
   implementation project(path: ':feature:common')
@@ -49,17 +50,8 @@ dependencies {
   //Kotlin
   implementation libraries.kotlinReflect
   implementation libraries.kotlin_coroutines
-
-  // Room
-  implementation libraries.room
-  implementation libraries.roomCoroutines
-  kapt libraries.roomComplier
-
-  //SquareUp
-  implementation libraries.squareup.okhttp3
-  implementation libraries.squareup.loggingInterceptor
-  implementation libraries.squareup.retrofit
-  implementation libraries.squareup.retrofitConverter
+  implementation libraries.ktx_viewmodel
+  implementation libraries.ktxFragment
 
   //Test
   testImplementation libraries.unitTest.junit

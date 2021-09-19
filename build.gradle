@@ -2,7 +2,6 @@
 buildscript {
   apply from: 'dependencies_version.gradle'
   apply from: 'librairies.gradle'
-  ext.kotlin_version = "1.5.21"
   repositories {
     google()
     mavenCentral()
