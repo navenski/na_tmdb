@@ -50,6 +50,7 @@ dependencies {
   implementation project(path: ':domain:usecase')
   implementation project(path: ':domain:business')
   implementation project(path: ':feature:common')
+  implementation project(path: ':toolkit')
 
   kapt libraries.hiltCompiler
 
