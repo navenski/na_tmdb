@@ -10,9 +10,21 @@ internal class SearchMultiResponseToSearchTransformer @Inject constructor() {
     @WorkerThread
     fun transform(response: SearchMultiResponse): SearchMulti {
 
-        val items = response.results.map(::transformItem)
+        val items =  transformCategory(response.results.map(::transformItem))
 
         return SearchMulti(response.page, items, response.total_pages, response.total_results)
+    }
+
+    private fun transformCategory(items: List<SearchMulti.Item>) : List<SearchMulti.Category> {
+        val map = items.groupBy { it.media_type }
+        val orderedMedia = map.keys.sorted()
+        val categories = mutableListOf<SearchMulti.Category>()
+        orderedMedia.forEach { key->
+            val category = SearchMulti.Category(SearchMulti.MediaType.from(key), map[key] ?: emptyList())
+            categories.add(category)
+        }
+
+        return categories
     }
 
     private fun transformItem(result: SearchMultiResponse.Item): SearchMulti.Item {

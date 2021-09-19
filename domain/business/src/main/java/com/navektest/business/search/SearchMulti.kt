@@ -2,10 +2,23 @@ package com.navektest.business.search
 
 data class SearchMulti(
     val page: Int,
-    val items: List<Item>,
+    val items: List<Category>,
     val total_pages: Int,
     val total_results: Int
 ){
+    enum class MediaType(val value: String) {
+        MOVIE("movie"),
+        PERSON("person"),
+        TV("tv"),
+        UNKNOWN("unknown");
+
+        companion object{
+            fun from(value: String) : MediaType = values().firstOrNull { it.value == value } ?: UNKNOWN
+        }
+    }
+
+    data class Category(val mediaType: MediaType, val items: List<Item>)
+
     data class Item(
         val adult: Boolean,
         val backdrop_path: String,
