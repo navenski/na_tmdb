@@ -24,8 +24,10 @@ class SearchFragment : Fragment() {
 
         val binding = FragmentSearchBinding.inflate(inflater)
 
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
         viewModel.bindRouter(router)
-        viewModel.launchSearch()
         return binding.root
     }
 }
