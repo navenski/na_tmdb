@@ -44,10 +44,10 @@ open class State<T> protected constructor(
             )
         }
 
-        fun <T> idle(): State<T> {
+        fun <T> idle(data: T? = null): State<T> {
             return State(
                 DataState.IDLE,
-                null,
+                data,
                 null
             )
         }

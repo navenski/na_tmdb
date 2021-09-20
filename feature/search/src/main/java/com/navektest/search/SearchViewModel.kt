@@ -47,7 +47,6 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
                                                    private val searchDataTransformer: SearchDataTransformer) : ViewModel() {
     private var routerWeakRef: WeakReference<SearchRouter> = WeakReference<SearchRouter>(null)
 
-    private var searchJob: Job? = null
     private val stateSharedFlow: MutableSharedFlow<String> = MutableSharedFlow(replay = 1)
     private val mutableLiveData: MutableLiveData<State<SearchData>> = MutableLiveData()
     fun getLiveData(): LiveData<State<SearchData>> = mutableLiveData
@@ -65,6 +64,11 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
 
     private suspend fun observeTextChange() {
         val flow: Flow<String> = stateSharedFlow
+            .distinctUntilChanged()
+            .onEach {
+                if (it.isEmpty()) mutableLiveData.value =
+                    State.idle(mutableLiveData.value?.data?.copy(items = emptyList()))
+            }
         flow.filterNot { it.isEmpty() }
             .debounce(200)
             .onEach { mutableLiveData.value = State.loading() }
@@ -82,5 +86,4 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
             is ResultState.Error -> State.error(resultState.exception)
         }
     }
-
 }

@@ -19,9 +19,9 @@ internal class SearchDataTransformer @Inject constructor(private val pathResolve
         val page = Page(search.page, search.total_pages, search.total_results)
         val items = mutableListOf<SearchCategory>()
 
-
         search.items.forEach { category ->
-            val mappedItems = category.items.map(::mapItem)
+            val mappedItems = category.items.filter { hasPhoto(it) }.map(::mapItem)
+            if (mappedItems.isNotEmpty())
             items.add(SearchCategory(getTitle(category.mediaType), mappedItems))
         }
 
@@ -35,6 +35,10 @@ internal class SearchDataTransformer @Inject constructor(private val pathResolve
             path = pathResolver.resolve(PicturePathResolver.Dimension.SMALL, path)
 
         return SearchItem(item.id, item.title, path)
+    }
+
+    private fun hasPhoto(item: SearchMulti.Item) : Boolean {
+        return item.poster_path.isNotEmpty() || item.profile_path.isNotEmpty() || item.backdrop_path.isNotEmpty()
     }
 
     private fun getTitle(mediaType: SearchMulti.MediaType): String {
