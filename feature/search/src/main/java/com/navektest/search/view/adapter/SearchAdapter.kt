@@ -11,9 +11,9 @@ import com.navektest.search.view.adapter.viewholder.SearchCategoryViewHolder
 import com.navektest.toolkit.view.BindableAdapter
 import javax.inject.Inject
 
-internal class SearchAdapter @Inject constructor() : ListAdapter<SearchCategory, SearchCategoryViewHolder>(diffCallback),
+internal class SearchAdapter @Inject constructor() : ListAdapter<SearchCategory, SearchCategoryViewHolder>(SearchAdapterDiffCallback()),
                                     BindableAdapter<List<SearchCategory>> {
-    private var items: List<SearchCategory> = emptyList()
+    @Volatile private var items: List<SearchCategory> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchCategoryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,20 +31,19 @@ internal class SearchAdapter @Inject constructor() : ListAdapter<SearchCategory,
 
     override fun setData(data: List<SearchCategory>?) {
         data ?: return
+        items = data.toList()
 
-        items = data
-        submitList(data)
+        submitList(items)
     }
 
-    companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<SearchCategory>() {
-            override fun areItemsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
-                return oldItem.title == newItem.title
-            }
+}
 
-            override fun areContentsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
-                return oldItem == newItem
-            }
-        }
+class SearchAdapterDiffCallback : DiffUtil.ItemCallback<SearchCategory>() {
+    override fun areItemsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
+        return oldItem.title == newItem.title
+    }
+
+    override fun areContentsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
+        return oldItem.items == newItem.items
     }
 }

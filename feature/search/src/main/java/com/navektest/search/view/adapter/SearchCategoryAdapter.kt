@@ -9,10 +9,10 @@ import com.navektest.search.model.SearchItem
 import com.navektest.search.view.adapter.viewholder.SearchItemViewHolder
 import com.navektest.toolkit.view.BindableAdapter
 
-internal class SearchCategoryAdapter : ListAdapter<SearchItem, SearchItemViewHolder>(diffCallback),
+internal class SearchCategoryAdapter : ListAdapter<SearchItem, SearchItemViewHolder>(SearchCategoryDiffCallback()),
                                        BindableAdapter<List<SearchItem>> {
 
-    private var items: List<SearchItem> = emptyList()
+    @Volatile private var items: List<SearchItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,21 +23,23 @@ internal class SearchCategoryAdapter : ListAdapter<SearchItem, SearchItemViewHol
         holder.bind(items[position])
     }
 
+    override fun getItemCount(): Int = items.size
+
     override fun setData(data: List<SearchItem>?) {
         data ?: return
-        items = data
-        submitList(data)
+        items = data.toList()
+
+        submitList(items)
     }
 
-    companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<SearchItem>() {
-            override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-                return oldItem.id == newItem.id
-            }
+}
 
-            override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
-                return oldItem == newItem
-            }
-        }
+class SearchCategoryDiffCallback: DiffUtil.ItemCallback<SearchItem>() {
+    override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+        return oldItem == newItem
     }
 }

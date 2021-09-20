@@ -39,4 +39,10 @@ object BindingAdapter {
     fun setVisibleOrGone(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
+
+    @JvmStatic
+    @BindingAdapter("visibleOrNot")
+    fun View.setVisibleOrNot( visible: Boolean) {
+        visibility = if (visible) View.VISIBLE else View.INVISIBLE
+    }
 }
