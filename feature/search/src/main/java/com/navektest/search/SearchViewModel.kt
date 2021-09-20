@@ -46,7 +46,6 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
                                                    private val dispatcherProvider: CoroutineDispatcherProvider,
                                                    private val searchDataTransformer: SearchDataTransformer) : ViewModel() {
     private var routerWeakRef: WeakReference<SearchRouter> = WeakReference<SearchRouter>(null)
-    private lateinit var page: Page
 
     private var searchJob: Job? = null
     private val stateSharedFlow: MutableSharedFlow<String> = MutableSharedFlow(replay = 1)
@@ -84,6 +83,4 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
         }
     }
 
-    fun loadMore() {
-    }
 }

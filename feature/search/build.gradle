@@ -61,6 +61,11 @@ dependencies {
   implementation libraries.ktx_viewmodel
   implementation libraries.ktxFragment
 
+  // Glide
+  implementation libraries.glide.lib
+  kapt libraries.glide.compiler
+  implementation libraries.glide.okhttp3
+
   //Test
   testImplementation libraries.unitTest.junit
   testImplementation libraries.unitTest.mockitoKotlin

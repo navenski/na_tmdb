@@ -45,8 +45,6 @@ dependencies {
   implementation libraries.hilt
   kapt libraries.hiltCompiler
 
-  implementation project(path: ':feature:common')
-
   //Kotlin
   implementation libraries.kotlinReflect
   implementation libraries.kotlin_coroutines

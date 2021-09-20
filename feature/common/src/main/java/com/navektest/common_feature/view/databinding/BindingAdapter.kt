@@ -1,18 +1,31 @@
 package com.navektest.common_feature.view.databinding
 
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.navektest.toolkit.view.BindableAdapter
+import java.io.File
 
 object BindingAdapter {
     @JvmStatic
-    @BindingAdapter("text")
-    fun setText(view: TextView, text: String) {            //Some data removed
-        if (view.text != text)
-            view.text = text
+    @BindingAdapter("url")
+    fun ImageView.setImageUrl(url:String) {
+        Glide.with(this)
+            .load(url)
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
     }
 
+    @Suppress("UNCHECKED_CAST")
     @JvmStatic
-    @InverseBindingAdapter(attribute = "text", event = "")
-    fun getText(view: TextView): String = view.text.toString()
+    @BindingAdapter("items")
+    fun <T> RecyclerView.setItems(data: T?) {
+        (adapter as? BindableAdapter<T>)?.setData(data)
+    }
 }

@@ -29,7 +29,7 @@ internal class SearchDataTransformer @Inject constructor(private val pathResolve
     }
 
     private fun mapItem(item: SearchMulti.Item): SearchItem {
-        var path = listOf(item.backdrop_path, item.profile_path, item.poster_path).firstOrNull { it.isNotEmpty() } ?: ""
+        var path = listOf(item.poster_path, item.profile_path, item.backdrop_path).firstOrNull { it.isNotEmpty() } ?: ""
 
         if (path.isNotEmpty())
             path = pathResolver.resolve(PicturePathResolver.Dimension.SMALL, path)
