@@ -51,5 +51,26 @@ open class State<T> protected constructor(
                 null
             )
         }
+
+        fun <T> accumulate(
+            oldState: State<T>,
+            newState: State<T>
+        ): State<T> {
+
+            if (oldState.hasError() && newState.isLoading()) {
+                return State(DataState.LOADING, oldState.data, oldState.error)
+            }
+            if (oldState.hasSuccess() && newState.isLoading()) {
+                return State(DataState.LOADING, oldState.data, null)
+            }
+            if (newState.hasError()) {
+                return State(DataState.ERROR, oldState.data, newState.error)
+            }
+            if (!newState.hasSuccess()) {
+                return State(newState.state, oldState.data, null)
+            }
+
+            return newState
+        }
     }
 }

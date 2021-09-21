@@ -3,7 +3,6 @@ package com.navektest.search.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.navektest.search.databinding.SearchCategoryBinding
 import com.navektest.search.model.SearchCategory
@@ -11,7 +10,7 @@ import com.navektest.search.view.adapter.viewholder.SearchCategoryViewHolder
 import com.navektest.toolkit.view.BindableAdapter
 import javax.inject.Inject
 
-internal class SearchAdapter @Inject constructor() : ListAdapter<SearchCategory, SearchCategoryViewHolder>(SearchAdapterDiffCallback()),
+internal class SearchAdapter @Inject constructor() : RecyclerView.Adapter< SearchCategoryViewHolder>(),
                                     BindableAdapter<List<SearchCategory>> {
     @Volatile private var items: List<SearchCategory> = emptyList()
 
@@ -31,19 +30,22 @@ internal class SearchAdapter @Inject constructor() : ListAdapter<SearchCategory,
 
     override fun setData(data: List<SearchCategory>?) {
         data ?: return
-        items = data.toList()
 
-        submitList(items)
+        val diffCallback = SearchAdapterDiffCallback(items, data)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        items = data.toList()
+        diffResult.dispatchUpdatesTo(this)
     }
 
 }
 
-class SearchAdapterDiffCallback : DiffUtil.ItemCallback<SearchCategory>() {
-    override fun areItemsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
-        return oldItem.title == newItem.title
-    }
+class SearchAdapterDiffCallback(private val oldItems: List<SearchCategory>, private val newItems: List<SearchCategory>) : DiffUtil.Callback() {
+    override fun getOldListSize(): Int  = oldItems.size
 
-    override fun areContentsTheSame(oldItem: SearchCategory, newItem: SearchCategory): Boolean {
-        return oldItem.items == newItem.items
-    }
+    override fun getNewListSize(): Int = newItems.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean  = oldItems[oldItemPosition].title == newItems[newItemPosition].title
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean  = oldItems[oldItemPosition] == newItems[newItemPosition]
 }
