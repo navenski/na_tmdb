@@ -69,7 +69,6 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
             .flatMapLatest { multiSearchUseCase.execute(it, 1) }
             .map(::mapToState)
             .flowOn(dispatcherProvider.default())
-            .distinctUntilChanged()
             .collectLatest {
                 mutableLiveData.value = it
             }

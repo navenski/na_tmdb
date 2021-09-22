@@ -17,8 +17,12 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.Tmdb">
+    <activity
+      android:name=".ComposeActivity"
+      android:exported="true"
+      android:label="@string/title_activity_compose"
+      android:theme="@style/Theme.Tmdb.NoActionBar" />
     <activity android:name=".MainActivity" />
-
     <activity
       android:name="com.navektest.splash.SplashActivity"
       android:exported="true">
@@ -28,7 +32,6 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-
   </application>
 
 </manifest>

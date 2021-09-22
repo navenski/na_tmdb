@@ -30,6 +30,9 @@ android {
     versionName "1.0"
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    vectorDrawables {
+      useSupportLibrary true
+    }
   }
 
   buildTypes {
@@ -44,9 +47,20 @@ android {
   }
   kotlinOptions {
     jvmTarget = '1.8'
+    useIR = true
   }
   buildFeatures {
     dataBinding true
+    compose true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion compose_version
+    kotlinCompilerVersion rootProject.kotlin_version
+  }
+  packagingOptions {
+    resources {
+      excludes += '/META-INF/{AL2.0,LGPL2.1}'
+    }
   }
 }
 
@@ -56,12 +70,13 @@ dependencies {
   implementation project(path: ':feature:common')
   implementation project(path: ':feature:splash')
   implementation project(path: ':feature:search')
+//  implementation project(path: ':feature:feed')
   implementation project(path: ':toolkit')
   implementation project(path: ':data')
   implementation project(path: ':domain:business')
   implementation project(path: ':domain:usecase')
 
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
   implementation libraries.ktxCore
   implementation libraries.ktxFragment
   implementation libraries.appcompat
@@ -76,6 +91,7 @@ dependencies {
   // Room
   implementation libraries.room
   implementation libraries.roomCoroutines
+  implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
   kapt libraries.roomComplier
 
 
@@ -100,11 +116,24 @@ dependencies {
   implementation libraries.squareup.retrofit
   implementation libraries.squareup.retrofitConverter
 
+  //Compose
+  implementation libraries.compose.ui
+  implementation libraries.compose.uiTooling
+  implementation libraries.compose.uiToolingPreview
+  implementation libraries.compose.foundation
+  implementation libraries.compose.material
+  implementation libraries.compose.materialIconsCore
+  implementation libraries.compose.materialIconsExtended
+  implementation libraries.compose.activityCompose
+  implementation libraries.compose.viewmodelCompose
+  implementation libraries.compose.livedata
+
   //Test
   testImplementation libraries.unitTest.junit
   testImplementation libraries.unitTest.mockitoKotlin
   testImplementation libraries.unitTest.mockito
   testImplementation libraries.unitTest.robolectric
   testImplementation libraries.kotlin_coroutines_test
+  androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
 }
