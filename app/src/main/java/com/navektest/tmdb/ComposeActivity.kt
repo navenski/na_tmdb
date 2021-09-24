@@ -8,8 +8,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
 import com.navektest.tmdb.ui.theme.TmdbTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,12 +21,14 @@ class ComposeActivity : ComponentActivity() {
             TmdbTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    ComposeScreen()
                 }
             }
         }
     }
 }
+
+
 
 @Composable
 fun Greeting(name: String) {
@@ -33,6 +39,7 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     TmdbTheme {
+
         Greeting("Android")
     }
 }
