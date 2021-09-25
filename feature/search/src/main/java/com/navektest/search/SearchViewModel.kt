@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.navektest.business.model.ResultState
-import com.navektest.business.search.SearchMulti
+import com.navektest.business.model.MediaPage
 import com.navektest.common_feature.view.databinding.ObservableString
 import com.navektest.common_feature.viewmodel.State
 import com.navektest.search.model.SearchData
@@ -14,6 +13,7 @@ import com.navektest.search.transformer.SearchDataTransformer
 import com.navektest.toolkit.dispatcher.CoroutineDispatcherProvider
 import com.navektest.usecase.search.MultiSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,10 +22,8 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
@@ -33,51 +31,53 @@ import javax.inject.Inject
 
 @FlowPreview
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class SearchViewModel @Inject constructor(private val multiSearchUseCase: MultiSearchUseCase,
                                                    private val dispatcherProvider: CoroutineDispatcherProvider,
                                                    private val searchDataTransformer: SearchDataTransformer) : ViewModel() {
     private var routerWeakRef: WeakReference<SearchRouter> = WeakReference<SearchRouter>(null)
 
-    private val stateSharedFlow: MutableSharedFlow<String> = MutableSharedFlow(replay = 1)
-
+    private val searchActionStateFlow: MutableSharedFlow<SearchAction> = MutableSharedFlow(replay = 1)
     private val mutableLiveData: MutableLiveData<State<SearchData>> = MutableLiveData()
     fun getLiveData(): LiveData<State<SearchData>> = mutableLiveData
 
     val searchText: ObservableString =
-        ObservableString(onValueChanged = { viewModelScope.launch { stateSharedFlow.emit(it.trim()) } })
-
-    fun bindRouter(router: SearchRouter) {
-        routerWeakRef = WeakReference(router)
-    }
+        ObservableString(onValueChanged = { viewModelScope.launch { searchActionStateFlow.emit(SearchAction(it.trim(), 1)) } })
 
     init {
         viewModelScope.launch { observeChange() }
     }
 
+    fun bindRouter(router: SearchRouter) {
+        routerWeakRef = WeakReference(router)
+    }
+
     private suspend fun observeChange() {
 
-        val flow: Flow<String> = stateSharedFlow
+        val flow: Flow<SearchAction> = searchActionStateFlow
             .distinctUntilChanged()
             .onEach {
-                if (it.isEmpty()) mutableLiveData.value =
+                if (it.searchTerm.isEmpty()) mutableLiveData.value =
                     State.idle()
             }
-        flow.filterNot { it.isEmpty() }
+        flow.filterNot { it.searchTerm.isEmpty() }
             .onEach { mutableLiveData.value = State.loading(mutableLiveData.value?.data) }
             .debounce(500)
             .flowOn(dispatcherProvider.main())
-            .flatMapLatest { multiSearchUseCase.execute(it, 1) }
+            .flatMapLatest {
+                multiSearchUseCase.execute(parameter = MultiSearchUseCase.Param(it.searchTerm, it.page))
+                multiSearchUseCase.observe()
+            }
             .map(::mapToState)
             .flowOn(dispatcherProvider.default())
             .collectLatest {
-                mutableLiveData.value = it
+                    mutableLiveData.value = it
             }
     }
 
-    private fun mapToState(resultState: ResultState<SearchMulti>): State<SearchData> {
-        return when (resultState) {
-            is ResultState.Success -> State.success(searchDataTransformer.transform(resultState.data))
-            is ResultState.Error -> State.error(resultState.exception)
-        }
+    private fun mapToState(resultState: MediaPage): State<SearchData> {
+        return State.success(searchDataTransformer.transform(resultState))
     }
+
+    private data class SearchAction(val searchTerm: String, val page: Int)
 }

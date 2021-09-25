@@ -39,7 +39,11 @@ internal class PagingMediaHandler<in P>(private val zipper: MediaPageConcatZippe
     private fun getLastMediaPage(): Flow<MediaPage> = flow { emit(lastMediaPage) }
 
     override fun execute(parameter: P) {
-        request
+      val success = sharedFlow.tryEmit(parameter)
+        val count = sharedFlow.subscriptionCount.value
+        if (success && (count > 0)){
+
+        }
     }
 
     override fun observe(): Flow<MediaPage>  = mediaPageFlow

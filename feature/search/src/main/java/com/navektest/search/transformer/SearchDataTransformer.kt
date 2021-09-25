@@ -1,6 +1,9 @@
 package com.navektest.search.transformer
 
 import androidx.annotation.WorkerThread
+import com.navektest.business.model.Media
+import com.navektest.business.model.MediaPage
+import com.navektest.business.model.MediaType
 import com.navektest.business.resolver.PicturePathResolver
 import com.navektest.business.search.SearchMulti
 import com.navektest.search.R
@@ -11,42 +14,39 @@ import com.navektest.search.model.SearchItem
 import com.navektest.toolkit.resolver.ResourceResolver
 import javax.inject.Inject
 
-internal class SearchDataTransformer @Inject constructor(private val pathResolver: PicturePathResolver,
-                                                         private val resourceResolver: ResourceResolver) {
+internal class SearchDataTransformer @Inject constructor(
+    private val resourceResolver: ResourceResolver) {
 
     @WorkerThread
-    fun transform(search: SearchMulti): SearchData {
-        val page = Page(search.page, search.total_pages, search.total_results)
+    fun transform(mediaPage: MediaPage): SearchData {
+        val page = Page(mediaPage.page, mediaPage.totalPages, mediaPage.totalResults)
         val items = mutableListOf<SearchCategory>()
 
-        search.items.forEach { category ->
-            val mappedItems = category.items.filter { hasPhoto(it) }.map(::mapItem)
+        val map = mediaPage.items.groupBy { it.type }
+
+
+        map.keys.forEach { key ->
+            val mappedItems =
+                map[key]!!.filter { it.hasPicture }
+                    .map(::mapItem)
             if (mappedItems.isNotEmpty())
-            items.add(SearchCategory(getTitle(category.mediaType), mappedItems))
+                items.add(SearchCategory(getTitle(key), mappedItems))
         }
 
         return SearchData(page, items)
     }
 
-    private fun mapItem(item: SearchMulti.Item): SearchItem {
-        var path = listOf(item.poster_path, item.profile_path, item.backdrop_path).firstOrNull { it.isNotEmpty() } ?: ""
+    private fun mapItem(item: Media): SearchItem {
 
-        if (path.isNotEmpty())
-            path = pathResolver.resolve(PicturePathResolver.Dimension.SMALL, path)
-
-        return SearchItem(item.id, item.title, path)
+        return SearchItem(item.id, item.title, item.poster.lowDefUrl)
     }
 
-    private fun hasPhoto(item: SearchMulti.Item) : Boolean {
-        return item.poster_path.isNotEmpty() || item.profile_path.isNotEmpty() || item.backdrop_path.isNotEmpty()
-    }
-
-    private fun getTitle(mediaType: SearchMulti.MediaType): String {
+    private fun getTitle(mediaType: MediaType): String {
         return when (mediaType) {
-            SearchMulti.MediaType.MOVIE -> resourceResolver.getString(R.string.movie)
-            SearchMulti.MediaType.TV -> resourceResolver.getString(R.string.tv)
-            SearchMulti.MediaType.PERSON -> resourceResolver.getString(R.string.person)
-            SearchMulti.MediaType.UNKNOWN -> resourceResolver.getString(R.string.other)
+            MediaType.MOVIE -> resourceResolver.getString(R.string.movie)
+            MediaType.TV -> resourceResolver.getString(R.string.tv)
+            MediaType.PERSON -> resourceResolver.getString(R.string.person)
+            MediaType.UNKNOWN -> resourceResolver.getString(R.string.other)
         }
     }
 }

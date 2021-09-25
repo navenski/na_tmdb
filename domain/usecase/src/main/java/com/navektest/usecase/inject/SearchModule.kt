@@ -21,7 +21,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class SearchModule {
 
     @Binds
-    abstract fun bindMultiSearchUseCase(
+    internal abstract fun bindMultiSearchUseCase(
         useCase: MultiSearchUseCaseImpl
     ): MultiSearchUseCase
 

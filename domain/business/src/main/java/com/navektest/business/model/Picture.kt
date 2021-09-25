@@ -6,4 +6,6 @@ package com.navektest.business.model
  * @param midDefUrl the resolved middle definition url
  * @param highDefUrl the resolved high definition url
  */
-data class Picture(val path: String, val lowDefUrl: String, val midDefUrl: String, val highDefUrl: String)
+data class Picture(val path: String, val lowDefUrl: String, val midDefUrl: String, val highDefUrl: String){
+    val hasPicture get() =  path.isNotEmpty()
+}
