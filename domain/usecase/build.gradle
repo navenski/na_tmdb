@@ -43,6 +43,7 @@ dependencies {
 
   //Hilt
   implementation libraries.hilt
+  implementation project(path: ':toolkit')
   kapt libraries.hiltCompiler
 
 
