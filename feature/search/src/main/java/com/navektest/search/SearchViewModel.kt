@@ -18,13 +18,20 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -38,11 +45,18 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
     private var routerWeakRef: WeakReference<SearchRouter> = WeakReference<SearchRouter>(null)
 
     private val searchActionStateFlow: MutableSharedFlow<SearchAction> = MutableSharedFlow(replay = 1)
+    private val stateFlow: MutableSharedFlow<State<SearchData>> = MutableSharedFlow(replay = 1)
+
     private val mutableLiveData: MutableLiveData<State<SearchData>> = MutableLiveData()
     fun getLiveData(): LiveData<State<SearchData>> = mutableLiveData
 
     val searchText: ObservableString =
-        ObservableString(onValueChanged = { viewModelScope.launch { searchActionStateFlow.emit(SearchAction(it.trim(), 1)) } })
+        ObservableString(onValueChanged = {
+            viewModelScope.launch {
+                searchActionStateFlow.emit(SearchAction(it.trim(),
+                                                        1))
+            }
+        })
 
     init {
         viewModelScope.launch { observeChange() }
@@ -54,26 +68,26 @@ internal class SearchViewModel @Inject constructor(private val multiSearchUseCas
 
     private suspend fun observeChange() {
 
-        val flow: Flow<SearchAction> = searchActionStateFlow
+        val flow = searchActionStateFlow
             .distinctUntilChanged()
             .onEach {
-                if (it.searchTerm.isEmpty()) mutableLiveData.value =
-                    State.idle()
+                if (it.searchTerm.isEmpty())
+                    stateFlow.emit(State.idle())
             }
-        flow.filterNot { it.searchTerm.isEmpty() }
-            .onEach { mutableLiveData.value = State.loading(mutableLiveData.value?.data) }
+            .filterNot { it.searchTerm.isEmpty() }
+            .onEach { stateFlow.emit(State.loading(mutableLiveData.value?.data)) }
             .debounce(500)
-            .flowOn(dispatcherProvider.main())
-            .flatMapLatest {
-                multiSearchUseCase.execute(parameter = MultiSearchUseCase.Param(it.searchTerm, it.page))
-                multiSearchUseCase.observe()
-            }
+            .onEach { multiSearchUseCase.execute(parameter = MultiSearchUseCase.Param(it.searchTerm, it.page)) }
+            .flatMapLatest { multiSearchUseCase.observe() }
             .map(::mapToState)
             .flowOn(dispatcherProvider.default())
-            .collectLatest {
-                    mutableLiveData.value = it
-            }
+
+
+        merge(flow, stateFlow).collectLatest {
+            mutableLiveData.value = it
+        }
     }
+
 
     private fun mapToState(resultState: MediaPage): State<SearchData> {
         return State.success(searchDataTransformer.transform(resultState))

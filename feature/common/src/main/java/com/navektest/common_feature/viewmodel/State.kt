@@ -19,6 +19,10 @@ open class State<T> protected constructor(
         return state == DataState.LOADING
     }
 
+    fun isIdle(): Boolean {
+        return state == DataState.IDLE
+    }
+
     companion object {
         fun <T> loading(data: T? = null): State<T> {
             return State(
