@@ -1,4 +1,4 @@
-package com.navektest.data.annotation
+package com.navektest.data.common.annotation
 
 import javax.inject.Qualifier
 

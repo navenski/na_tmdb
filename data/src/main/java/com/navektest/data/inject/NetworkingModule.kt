@@ -4,8 +4,9 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.navektest.data.R
-import com.navektest.data.annotation.ApiKey
+import com.navektest.data.common.annotation.ApiKey
 import com.navektest.data.search.remote.SearchApi
+import com.navektest.data.trending.remote.TrendingApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,4 +60,7 @@ object NetworkingModule {
 
     @Provides
     internal fun provideSearchApi(retrofit: Retrofit): SearchApi = retrofit.create(SearchApi::class.java)
+
+    @Provides
+    internal fun provideTrendApi(retrofit: Retrofit): TrendingApi = retrofit.create(TrendingApi::class.java)
 }

@@ -7,6 +7,7 @@ plugins {
 
 android {
   compileSdk rootProject.compileSdkVersion
+  buildToolsVersion rootProject.buildToolsVersion
 
   defaultConfig {
     minSdk rootProject.minSdkVersion
@@ -32,8 +33,14 @@ android {
     jvmTarget = '1.8'
   }
   buildFeatures {
+    compose true
     dataBinding true
   }
+  composeOptions {
+    kotlinCompilerExtensionVersion compose_version
+    kotlinCompilerVersion rootProject.kotlin_version
+  }
+
 }
 
 dependencies {
@@ -46,7 +53,6 @@ dependencies {
 
   //Hilt
   implementation libraries.hilt
-  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
   implementation project(path: ':domain:usecase')
   implementation project(path: ':domain:business')
   implementation project(path: ':feature:common')
@@ -82,4 +88,6 @@ dependencies {
   testImplementation libraries.unitTest.mockitoKotlin
   testImplementation libraries.unitTest.mockito
   testImplementation libraries.unitTest.robolectric
+  testImplementation libraries.kotlin_coroutines_test
+  androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }

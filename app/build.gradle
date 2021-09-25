@@ -70,7 +70,7 @@ dependencies {
   implementation project(path: ':feature:common')
   implementation project(path: ':feature:splash')
   implementation project(path: ':feature:search')
-//  implementation project(path: ':feature:feed')
+  implementation project(path: ':feature:feed')
   implementation project(path: ':toolkit')
   implementation project(path: ':data')
   implementation project(path: ':domain:business')

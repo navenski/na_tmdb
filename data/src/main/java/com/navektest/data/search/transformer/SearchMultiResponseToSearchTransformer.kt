@@ -2,13 +2,13 @@ package com.navektest.data.search.transformer
 
 import androidx.annotation.WorkerThread
 import com.navektest.business.search.SearchMulti
-import com.navektest.data.search.remote.response.SearchMultiResponse
+import com.navektest.data.common.remote.response.MediaResponse
 import javax.inject.Inject
 
 internal class SearchMultiResponseToSearchTransformer @Inject constructor() {
 
     @WorkerThread
-    fun transform(response: SearchMultiResponse): SearchMulti {
+    fun transform(response: MediaResponse): SearchMulti {
 
         val items =  transformCategory(response.results.map(::transformItem))
 
@@ -27,7 +27,7 @@ internal class SearchMultiResponseToSearchTransformer @Inject constructor() {
         return categories
     }
 
-    private fun transformItem(result: SearchMultiResponse.Item): SearchMulti.Item {
+    private fun transformItem(result: MediaResponse.MediaItem): SearchMulti.Item {
         val knowForList: List<SearchMulti.KnownFor> = result.known_for?.map { transformKnowFor(it) } ?: emptyList()
         return SearchMulti.Item(
             adult = result.adult ?: false,
@@ -53,7 +53,7 @@ internal class SearchMultiResponseToSearchTransformer @Inject constructor() {
         )
     }
 
-    private fun transformKnowFor(response: SearchMultiResponse.KnownFor): SearchMulti.KnownFor {
+    private fun transformKnowFor(response: MediaResponse.KnownFor): SearchMulti.KnownFor {
         return SearchMulti.KnownFor(
             adult = response.adult ?: false,
             backdrop_path = response.backdrop_path ?: "",

@@ -4,5 +4,6 @@
   <string name="tv">Tv show</string>
   <string name="person">Person</string>
   <string name="other">Other</string>
-
+  <string name="trending_movie"> Popular Movie</string>
+  <string name="trending_tv">Popular Tv</string>
 </resources>

@@ -23,7 +23,6 @@ internal class SearchRepositoryImpl @Inject constructor(private val coroutinePro
 
             .map { ResultState.success(responseTransformer.transform(it)) }
             .catch { emit(ResultState.error()) }
-
             .flowOn(coroutineProvider.default())
     }
 }

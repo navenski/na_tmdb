@@ -1,4 +1,4 @@
-package com.navektest.data.resolver
+package com.navektest.data.common.resolver
 
 import com.navektest.business.resolver.PicturePathResolver
 import javax.inject.Inject
