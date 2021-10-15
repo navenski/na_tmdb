@@ -6,6 +6,8 @@ enum class MediaType(val value: String) {
     TV("tv"),
     UNKNOWN("unknown");
 
+    val isPerson get() =  this == PERSON
+
     companion object {
         fun from(value: String): MediaType = values().firstOrNull { it.value == value.lowercase() } ?: UNKNOWN
     }

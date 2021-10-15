@@ -24,6 +24,6 @@ internal class MediaPageTransformer @Inject constructor(private val pictureResol
                      title = title ?: name ?: "",
                      MediaType.from(media_type ?: defaultMediaType.value),
                      pictureResolver.resolve(poster_path ?: ""),
-                     pictureResolver.resolve(backdrop_path ?: ""))
+                     pictureResolver.resolve(backdrop_path ?: ""), pictureResolver.resolve(profile_path ?: ""))
     }
 }

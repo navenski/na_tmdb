@@ -27,12 +27,12 @@ internal class SearchCategoryAdapter : RecyclerView.Adapter< SearchItemViewHolde
     override fun getItemCount(): Int = items.size
 
     override fun setData(data: List<SearchItem>?) {
-        data ?: return
+        val searchItemDatas =  data ?: emptyList()
 
-        val diffCallback = SearchCategoryDiffCallback(items, data)
+        val diffCallback = SearchCategoryDiffCallback(items, searchItemDatas)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
-        items = data.toList()
+        items = searchItemDatas.toList()
         diffResult.dispatchUpdatesTo(this)
     }
 }

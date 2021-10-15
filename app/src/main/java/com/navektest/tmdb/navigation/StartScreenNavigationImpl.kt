@@ -10,7 +10,7 @@ import javax.inject.Inject
 class StartScreenNavigationImpl @Inject constructor(private val context: Activity) : StartScreenNavigation {
 
     override fun navigate() {
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, ComposeActivity::class.java)
         context.startActivity(intent)
     }
 

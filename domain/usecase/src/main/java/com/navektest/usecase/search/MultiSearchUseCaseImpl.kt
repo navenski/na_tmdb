@@ -13,7 +13,7 @@ internal class MultiSearchUseCaseImpl @Inject constructor(private val searchRepo
         searchRepository.multiSearch(it.query, it.page)
     }
 
-    override fun execute(parameter: MultiSearchUseCase.Param) = paging.execute(parameter)
+    override fun invoke(parameter: MultiSearchUseCase.Param) = paging.invoke(parameter)
 
-    override fun observe(): Flow<MediaPage> = paging.observe()
+    override fun flow(): Flow<MediaPage> = paging.flow()
 }

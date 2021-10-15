@@ -37,8 +37,7 @@ internal class SearchDataTransformer @Inject constructor(
     }
 
     private fun mapItem(item: Media): SearchItem {
-
-        return SearchItem(item.id, item.title, item.poster.lowDefUrl)
+        return SearchItem(item.id, item.title, item.defaultPicture.lowDefUrl)
     }
 
     private fun getTitle(mediaType: MediaType): String {

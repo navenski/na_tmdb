@@ -1,38 +1,22 @@
 plugins {
-  id 'com.android.application'
+  id 'com.android.library'
   id 'kotlin-android'
   id 'kotlin-kapt'
   id 'dagger.hilt.android.plugin'
-  id 'androidx.navigation.safeargs'
 }
 
 android {
-
-  compileSdkVersion rootProject.compileSdkVersion
+  compileSdk rootProject.compileSdkVersion
   buildToolsVersion rootProject.buildToolsVersion
 
-  lintOptions {
-    // Returns whether lint should check for fatal errors during release builds. Default is true.
-    // If issues with severity "fatal" are found, the release build is aborted.
-    checkReleaseBuilds false
-  }
-
-  hilt {
-    enableExperimentalClasspathAggregation = true
-  }
-
-
   defaultConfig {
-    applicationId "com.navektest.tmdb"
-    minSdkVersion rootProject.minSdkVersion
-    targetSdkVersion rootProject.targetSdkVersion
+    minSdk rootProject.minSdkVersion
+    targetSdk rootProject.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    vectorDrawables {
-      useSupportLibrary true
-    }
+    consumerProguardFiles "consumer-rules.pro"
   }
 
   buildTypes {
@@ -47,81 +31,47 @@ android {
   }
   kotlinOptions {
     jvmTarget = '1.8'
-    useIR = true
   }
   buildFeatures {
-    dataBinding true
     compose true
+    dataBinding true
   }
   composeOptions {
     kotlinCompilerExtensionVersion compose_version
     kotlinCompilerVersion rootProject.kotlin_version
   }
-  packagingOptions {
-    resources {
-      excludes += '/META-INF/{AL2.0,LGPL2.1}'
-    }
-  }
+
 }
 
 dependencies {
 
-  //Feature
-  implementation project(path: ':feature:common')
-  implementation project(path: ':feature:splash')
-  implementation project(path: ':feature:search')
-  implementation project(path: ':feature:feed')
-  implementation project(path: ':toolkit')
-  implementation project(path: ':data')
-  implementation project(path: ':domain:business')
-  implementation project(path: ':domain:usecase')
-  implementation project(path: ':navigation:router-implem')
-  implementation project(path: ':navigation:router')
-
-
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation libraries.ktxCore
-  implementation libraries.ktxFragment
   implementation libraries.appcompat
   implementation libraries.material
   implementation libraries.constraintlayout
 
-  //Navigation
-  implementation libraries.navigationFragment
-  implementation libraries.navigationUI
-  implementation libraries.navigationModuleSupport
-
-  // Room
-  implementation libraries.room
-  implementation libraries.roomCoroutines
-  implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-  kapt libraries.roomComplier
-
-
-  //Dagger
+  //Hilt
   implementation libraries.hilt
+  implementation project(path: ':navigation:router')
+
   kapt libraries.hiltCompiler
+
 
   //Kotlin
   implementation libraries.kotlinReflect
   implementation libraries.kotlin_coroutines
   implementation libraries.ktx_viewmodel
-  coreLibraryDesugaring libraries.desugarJdkLib
+  implementation libraries.ktxFragment
 
   // Glide
   implementation libraries.glide.lib
   kapt libraries.glide.compiler
   implementation libraries.glide.okhttp3
 
-  //SquareUp
-  implementation libraries.squareup.okhttp3
-  implementation libraries.squareup.loggingInterceptor
-  implementation libraries.squareup.retrofit
-  implementation libraries.squareup.retrofitConverter
-
   //Compose
   implementation libraries.compose.ui
   implementation libraries.compose.uiTooling
-  implementation libraries.compose.uiToolingPreview
   implementation libraries.compose.foundation
   implementation libraries.compose.material
   implementation libraries.compose.materialIconsCore
@@ -137,5 +87,4 @@ dependencies {
   testImplementation libraries.unitTest.robolectric
   testImplementation libraries.kotlin_coroutines_test
   androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-
 }

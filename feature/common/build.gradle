@@ -51,10 +51,13 @@ dependencies {
 
   // Glide
   implementation libraries.glide.lib
-  implementation project(path: ':toolkit')
   kapt libraries.glide.compiler
   implementation libraries.glide.okhttp3
   implementation libraries.timber
+
+  //Project
+  implementation project(path: ':navigation:router')
+  implementation project(path: ':toolkit')
 
   //Test
   testImplementation libraries.unitTest.junit

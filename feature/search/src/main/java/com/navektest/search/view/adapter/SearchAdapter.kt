@@ -29,12 +29,12 @@ internal class SearchAdapter @Inject constructor() : RecyclerView.Adapter< Searc
     override fun getItemCount(): Int = items.size
 
     override fun setData(data: List<SearchCategory>?) {
-        data ?: return
+        val searchCategoryData = data ?: emptyList()
 
-        val diffCallback = SearchAdapterDiffCallback(items, data)
+        val diffCallback = SearchAdapterDiffCallback(items, searchCategoryData)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
-        items = data.toList()
+        items = searchCategoryData.toList()
         diffResult.dispatchUpdatesTo(this)
     }
 
