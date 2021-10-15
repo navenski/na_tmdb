@@ -7,4 +7,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class TmdbRouterViewModel @Inject constructor(handler: RouterHandler<Screen>) : RouterViewModel<Screen>(handler)
+class TmdbRouterViewModel @Inject constructor(handler: TmbRouterHandler) : RouterViewModel<Screen>(handler)

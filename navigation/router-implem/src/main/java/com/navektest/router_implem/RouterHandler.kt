@@ -9,7 +9,7 @@ interface RouterHandler<T : Route> {
     operator fun invoke(screen: T)
 }
 
-class RouterHandlerImpl<T : Route> : RouterHandler<T> {
+abstract class RouterHandlerTemplate<T : Route> : RouterHandler<T> {
     private val sharedFlow = MutableSharedFlow<T>()
     override val flow: Flow<T> get() = sharedFlow
 

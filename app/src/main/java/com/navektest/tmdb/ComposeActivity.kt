@@ -13,17 +13,17 @@ import com.navektest.feed.view.ShowFeed
 import com.navektest.tmdb.navigation.TmdbRouterViewModel
 import com.navektest.tmdb.ui.theme.TmdbTheme
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ComposeActivity : ComponentActivity() {
 
-    private val navigatorViewModel : TmdbRouterViewModel by viewModels()
+    private val routerViewModel : TmdbRouterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
 
+        setContent {
             TmdbTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
