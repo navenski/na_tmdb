@@ -59,6 +59,17 @@ dependencies {
   implementation project(path: ':navigation:router')
   implementation project(path: ':toolkit')
 
+  //Compose
+  implementation libraries.compose.ui
+  implementation libraries.compose.uiTooling
+  implementation libraries.compose.foundation
+  implementation libraries.compose.material
+  implementation libraries.compose.materialIconsCore
+  implementation libraries.compose.materialIconsExtended
+  implementation libraries.compose.activityCompose
+  implementation libraries.compose.viewmodelCompose
+  implementation libraries.compose.livedata
+
   //Test
   testImplementation libraries.unitTest.junit
   testImplementation libraries.unitTest.mockitoKotlin
