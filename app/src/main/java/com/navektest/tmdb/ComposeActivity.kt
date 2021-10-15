@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.navektest.feed.view.ShowFeed
 import com.navektest.tmdb.navigation.TmdbRouterViewModel
 import com.navektest.tmdb.ui.theme.TmdbTheme
@@ -24,12 +25,14 @@ class ComposeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val navController = rememberNavController()
             TmdbTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    ShowFeed()
+                    // A surface container using the 'background' color from the theme
+                    Surface(color = MaterialTheme.colors.background) {
+                        ShowFeed()
+                    }
                 }
-            }
+
         }
     }
 }

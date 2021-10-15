@@ -129,6 +129,12 @@ dependencies {
   implementation libraries.compose.activityCompose
   implementation libraries.compose.viewmodelCompose
   implementation libraries.compose.livedata
+  implementation libraries.compose.navigation
+
+//  //Accompanist
+//  implementation libraries.accompanist.insets
+//  implementation libraries.accompanist.systemuicontroller
+//  implementation libraries.accompanist.flowlayouts
 
   //Test
   testImplementation libraries.unitTest.junit
