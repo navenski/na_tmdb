@@ -132,9 +132,9 @@ dependencies {
   implementation libraries.compose.navigation
 
 //  //Accompanist
-//  implementation libraries.accompanist.insets
-//  implementation libraries.accompanist.systemuicontroller
-//  implementation libraries.accompanist.flowlayouts
+  implementation libraries.accompanist.insets
+  implementation libraries.accompanist.systemuicontroller
+  implementation libraries.accompanist.flowlayouts
 
   //Test
   testImplementation libraries.unitTest.junit
