@@ -16,4 +16,8 @@ sealed class Screen(override val route: String, @StringRes val title: Int) : Rou
     }
 
     object Details : Screen("details", 0)
+
+    companion object{
+        fun getHomeScreens() : List<HomeSection> = listOf(Home.Feed, Home.Search, Home.Video, Home.You)
+    }
 }

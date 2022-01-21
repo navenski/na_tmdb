@@ -75,7 +75,7 @@ dependencies {
   implementation project(path: ':data')
   implementation project(path: ':domain:business')
   implementation project(path: ':domain:usecase')
-  implementation project(path: ':navigation:router-implem')
+  implementation project(path: ':navigation:router-template')
   implementation project(path: ':navigation:router')
 
 
@@ -100,6 +100,7 @@ dependencies {
   //Dagger
   implementation libraries.hilt
   kapt libraries.hiltCompiler
+  implementation libraries.hiltCompose
 
   //Kotlin
   implementation libraries.kotlinReflect

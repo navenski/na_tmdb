@@ -1,4 +1,4 @@
-package com.navektest.router_implem
+package com.navektest.router_template
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.navektest.router_implem
+package com.navektest.router_template
 
 import androidx.lifecycle.ViewModel
 import com.navektest.router.Route

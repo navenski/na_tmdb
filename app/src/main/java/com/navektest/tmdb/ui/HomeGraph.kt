@@ -13,61 +13,36 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.navektest.common_feature.navigation.compose.screen.Screen
+import com.navektest.feed.view.FeedScreen
+import com.navektest.tmdb.R
 import com.navektest.tmdb.ui.theme.TmdbTheme
 
-
-
-private fun NavGraphBuilder.tmdbNavGraph(
-    onSnackSelected: (Long, NavBackStackEntry) -> Unit,
-    upPress: () -> Unit
-) {
-    navigation(
-        route = Screen.Home.route,
-        startDestination = Screen.Home.Feed.route
-    ) {
-        addHomeGraph(onSnackSelected)
-    }
-//    composable(
-//        "${MainDestinations.SNACK_DETAIL_ROUTE}/{${MainDestinations.SNACK_ID_KEY}}",
-//        arguments = listOf(navArgument(MainDestinations.SNACK_ID_KEY) { type = NavType.LongType })
-//    ) { backStackEntry ->
-//        val arguments = requireNotNull(backStackEntry.arguments)
-//        val snackId = arguments.getLong(MainDestinations.SNACK_ID_KEY)
-//        SnackDetail(snackId, upPress)
-//    }
-}
-
-
-fun NavGraphBuilder.addHomeGraph(
-    onSnackSelected: (Long, NavBackStackEntry) -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun NavGraphBuilder.addHomeGraph() {
     composable(Screen.Home.Feed.route) {
-        Profile()
+        FeedScreen()
     }
     composable(Screen.Home.Search.route) {
-        Profile()
+        GenericScreen("Search")
     }
     composable(Screen.Home.Video.route) {
-        Profile()
+        GenericScreen("Video")
     }
     composable(Screen.Home.You.route) {
-        Profile()
+        GenericScreen("You")
     }
 }
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
+fun GenericScreen(title: String = "Hello", modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -78,14 +53,14 @@ fun Profile(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(24.dp))
         Text(
-            text = "stringResource(R.string.work_in_progress)",
-            style = MaterialTheme.typography.subtitle1,
+            text = title,
+            style = MaterialTheme.typography.h1,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(16.dp))
         Text(
-            text = "stringResource(R.string.grab_beverage)",
+            text = "work in progress",
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -99,6 +74,6 @@ fun Profile(modifier: Modifier = Modifier) {
 @Composable
 fun ProfilePreview() {
     TmdbTheme {
-        Profile()
+        GenericScreen()
     }
 }

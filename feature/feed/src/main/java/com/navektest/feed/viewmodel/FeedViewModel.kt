@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.navektest.common_feature.navigation.compose.screen.Screen
+import com.navektest.common_feature.navigation.compose.screen.TmdbRouter
 import com.navektest.common_feature.viewmodel.State
 import com.navektest.feed.R
 import com.navektest.feed.model.FeedCategory
@@ -25,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class FeedViewModel @Inject constructor(
+    private val router: TmdbRouter,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val movieUseCase: GetMovieTrendingUseCase,
     private val tvUseCase: GetTvTrendingUseCase,
@@ -62,5 +65,9 @@ internal class FeedViewModel @Inject constructor(
     private fun getTvCategory(): Flow<FeedCategory> {
         return tvUseCase.execute()
             .map { transformer.transform(resourceResolver.getString(R.string.movie), it.items) }
+    }
+
+     fun testNavigation(){
+        router.navigateTo(Screen.Details)
     }
 }
