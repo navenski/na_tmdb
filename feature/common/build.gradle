@@ -60,6 +60,7 @@ dependencies {
   implementation project(path: ':toolkit')
 
   //Compose
+  //Compose
   implementation libraries.compose.ui
   implementation libraries.compose.uiTooling
   implementation libraries.compose.foundation
@@ -69,6 +70,7 @@ dependencies {
   implementation libraries.compose.activityCompose
   implementation libraries.compose.viewmodelCompose
   implementation libraries.compose.livedata
+  implementation libraries.compose.coil
 
   //Test
   testImplementation libraries.unitTest.junit

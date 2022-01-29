@@ -62,7 +62,8 @@ ext {
           "activityCompose"      : "androidx.activity:activity-compose:1.3.1",
           "viewmodelCompose"     : "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07",
           "livedata"             : "androidx.compose.runtime:runtime-livedata:$compose_version",
-          "navigation"           : "androidx.navigation:navigation-compose:$navigation_compose_version"
+          "navigation"           : "androidx.navigation:navigation-compose:$navigation_compose_version",
+          "coil": "io.coil-kt:coil-compose:$compose_coil_version",
       ],
       //Accompanist
       "accompanist"               : [

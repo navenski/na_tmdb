@@ -56,7 +56,6 @@ class ComposeActivity : ComponentActivity() {
 
         setContent {
             ProvideWindowInsets {
-
                 TmdbTheme {
                     val navController = rememberNavController()
                     LaunchedEffect("navigation"){

@@ -43,17 +43,19 @@ dependencies {
   implementation libraries.appcompat
   implementation libraries.material
   implementation libraries.constraintlayout
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
   //Hilt
   implementation libraries.hilt
-  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  implementation libraries.hiltCompose
+  kapt libraries.hiltCompiler
+
+  //Project
   implementation project(path: ':domain:usecase')
   implementation project(path: ':domain:business')
   implementation project(path: ':feature:common')
+  implementation project(path: ':navigation:router')
   implementation project(path: ':toolkit')
-
-  kapt libraries.hiltCompiler
-
 
   //Kotlin
   implementation libraries.kotlinReflect
@@ -65,6 +67,18 @@ dependencies {
   implementation libraries.glide.lib
   kapt libraries.glide.compiler
   implementation libraries.glide.okhttp3
+
+  //Compose
+  implementation libraries.compose.ui
+  implementation libraries.compose.uiTooling
+  implementation libraries.compose.foundation
+  implementation libraries.compose.material
+  implementation libraries.compose.materialIconsCore
+  implementation libraries.compose.materialIconsExtended
+  implementation libraries.compose.activityCompose
+  implementation libraries.compose.viewmodelCompose
+  implementation libraries.compose.livedata
+  implementation libraries.compose.coil
 
   //Test
   testImplementation libraries.unitTest.junit

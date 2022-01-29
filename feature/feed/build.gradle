@@ -54,6 +54,7 @@ dependencies {
   //Hilt
   implementation libraries.hilt
   implementation libraries.hiltCompose
+  kapt libraries.hiltCompiler
 
   //Project
   implementation project(path: ':domain:usecase')
@@ -61,9 +62,6 @@ dependencies {
   implementation project(path: ':feature:common')
   implementation project(path: ':navigation:router')
   implementation project(path: ':toolkit')
-
-  kapt libraries.hiltCompiler
-
 
   //Kotlin
   implementation libraries.kotlinReflect
@@ -86,6 +84,7 @@ dependencies {
   implementation libraries.compose.activityCompose
   implementation libraries.compose.viewmodelCompose
   implementation libraries.compose.livedata
+  implementation libraries.compose.coil
 
   //Test
   testImplementation libraries.unitTest.junit

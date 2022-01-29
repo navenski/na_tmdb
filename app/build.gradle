@@ -131,6 +131,7 @@ dependencies {
   implementation libraries.compose.viewmodelCompose
   implementation libraries.compose.livedata
   implementation libraries.compose.navigation
+  implementation libraries.compose.coil
 
 //  //Accompanist
   implementation libraries.accompanist.insets
